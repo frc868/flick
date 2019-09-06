@@ -1,5 +1,5 @@
 module.exports = {
-	init: () => ({
-		zwsp: () => "\u200b"
-	})
+    init: () => ({
+        zwsp: () => "\u200b"
+    })
 };
