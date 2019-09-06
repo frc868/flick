@@ -121,6 +121,14 @@ async function initaliseDiscord(config, secrets, moduleInstances) {
         callModules(next, "onEdit", { prev, next });
     });
 
+    dclient.on("guildMemberAdd", member => {
+        callModules(member, "onMemberAdd", { member });
+    });
+
+    dclient.on("guildMemberRemove", member => {
+        callModules(member, "onMemberRemove", { member });
+    });
+
     dclient.on("guildMemberUpdate", (prev, next) => {
         callModules(next, "onMemberEdit", { prev, next });
     });
