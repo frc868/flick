@@ -1,6 +1,6 @@
 module.exports = {
     init: function({ config }) {
-        const prefixes = config.prefixes || ["'", "‘", ";"];
+        const prefixes = config.prefixes || [";"];
 
         return {
             onMessage: function({ msg }) {
