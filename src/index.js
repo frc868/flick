@@ -189,10 +189,10 @@ async function initaliseDiscord(config, secrets, moduleInstances) {
 
     return new Promise((resolve, reject) => {
         dclient.on("ready", x => {
-            dclient.user.setStatus('available')
+            dclient.user.setStatus("available");
             dclient.user.setPresence({
                 game: {
-                    name: 'Ultimate Ascent',
+                    name: "Ultimate Ascent",
                     type: "STREAMING",
                     url: "https://www.twitch.tv/firstinspires"
                 }

@@ -1,7 +1,8 @@
 module.exports = {
     init: () => ({
-        jouvert: () => "https://youtu.be/PkLPFi4fmug",
-        internationale: () => "https://youtu.be/3sh4kz_zhyo",
-        cyboogie: () => "https://youtu.be/_un9PYsE1_g"
+        evil: () => "https://youtu.be/dkpgz3uQ58U",
+        okgo: () => "https://youtu.be/qybUFnY7Y8w",
+        dangerous: () => "https://youtu.be/LpQArtCeXTk",
+        birchtree: () => "https://youtu.be/pFkGvVFdx-o"
     })
 };
