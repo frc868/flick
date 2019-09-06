@@ -30,6 +30,7 @@ module.exports = {
         };
         return {
             division: division(true),
+            removedivision: division(false),
             undivision: division(false)
         };
     }
