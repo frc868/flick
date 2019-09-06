@@ -1,15 +1,15 @@
 const { debug, info, error, fatal, assert } = require("../logging.js");
 
 module.exports = {
-	commands: { iam: null, iamnot: ["iamn"] },
+	commands: { division: null, removedivision: ["undivision"] },
 	init: ({ config }) => {
-		const iam = add => async ({ msg, rawArgs }) => {
+		const division = add => async ({ msg, rawArgs }) => {
 			assert(msg.guild.roles.has(config.separatorRole), "valid separator role");
 			const separatorRole = msg.guild.roles.get(config.separatorRole);
 			const role = msg.guild.roles.find(
 				x => x.name.toLowerCase() === rawArgs.toLowerCase()
 			);
-			if (!role) return "Couldn't find that role :/";
+			if (!role) return "That division doesn't exist :/";
 			debug("has", msg.member.roles.has(role.id));
 			if (add) {
 				if (msg.member.roles.has(role.id)) return "You already were :)";
@@ -25,9 +25,8 @@ module.exports = {
 			}
 		};
 		return {
-			iam: iam(true),
-			iamn: iam(false),
-			iamnot: iam(false)
+			division: division(true),
+			undivision: division(false),
 		};
 	}
 };

@@ -1,4 +1,4 @@
-This repository is available at [sr.ht](https://git.sr.ht/~k2l8m11n2/vinny) and [GitHub](https://github.com/k2l8m11n2/vinny). Please submit patches to `autoclave@firemail.cc` or as pull requests on GitHub.
+This is a fork of [Vinny](https://github.com/k2l8m11n2/vinny) for the private TechHOUNDS Discord server, with various unnecessary features cut and selfroles reworked for TechHOUNDS's "division" system.
 
 # Installation
 

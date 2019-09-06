@@ -1,6 +1,6 @@
 module.exports = {
 	init: () => ({
 		repo: () =>
-			"https://git.sr.ht/~k2l8m11n2/vinny\nhttps://github.com/k2l8m11n2/vinny"
+			"https://github.com/frc868/flick\na fork of https://github.com/k2l8m11n2/vinny"
 	})
 };

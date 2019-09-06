@@ -1,1 +1,4 @@
 node_modules
+config.yaml
+secrets.yaml
+log.db
