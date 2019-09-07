@@ -3,8 +3,7 @@ const { debug, info, error, fatal, assert } = require("../logging.js");
 module.exports = {
     commands: { nick: null },
     init: () => {
-        const nick = () => async ({ msg, rawArgs }) => {
-            const args = rawArgs.split(" ");
+        const nick = () => async ({ msg, args }) => {
             if (args.length != 2)
                 return "Please enter a name in the format Firstname Lastname.";
             await msg.member.setNickname(
