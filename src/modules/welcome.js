@@ -12,7 +12,9 @@ module.exports = {
                             member.user.username +
                             "**.\nPlease read the " +
                             member.guild.channels.get(config.rules).toString() +
-                            " for information on how to set your nickname and join a division."
+                            ".\n **To enter the server**, please do the following:\n" +
+                            "Type `;nick Firstname Lastname` to identify yourself.\n" +
+                            "Type `;division Robot Ops` (or whatever your division is) to gain access to your division."
                     );
             }
         };

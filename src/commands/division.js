@@ -25,7 +25,8 @@ module.exports = {
                 // debug("has", msg.member.roles.has(role.id));
                 // debug("position", role.position);
 
-                if (msg.member.roles.has(config.alumniRole)) return "You're an alum!";
+                if (msg.member.roles.has(config.alumniRole))
+                    return "You're an alum!";
                 if (!role) return "Try signing up for a division that exists.";
                 if (roles.map(x => msg.member.roles.has(x)).includes(true))
                     return "You're already in a division!";
