@@ -4,9 +4,7 @@ const xclient = require("xkcd-api"); // i hate this api, but i don't feel like w
 
 const sendAttachment = (msg, url) => {
     msg.channel.send("", {
-        files: [
-            new discord.Attachment(url)
-        ]
+        files: [new discord.Attachment(url)]
     });
 };
 
