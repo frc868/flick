@@ -1,55 +1,19 @@
 servers:
-  "514121360851599371":
+  "403364109409845248":
     modules:
-      - "hello"
+      - "welcome"
       - "commands"
       - "dice"
-      - "r5k"
-      - "counting"
-      - "tzdata"
-      - "roulette"
-      - "nick-museum"
-      - "ephemeral"
-      - "points"
-      - "dice"
-      - "pins"
-      - "emoji-stats"
     moduleConfig:
-      # hello:
-      #   greeting: hi
-      #   name: Autoclave
+      welcome:
+        channel: "451027883054465055"
+        rules: "610974359116316722"
       commands:
         prefixes:
-          - "'"
           - ";"
-          - "prefix"
-        iam:
-          separatorRole: "514133987308994575"
+        division:
+          separatorRole: "619572167696187443"
+          alumniRole: "433706179856826369"
         voting:
-          creatorRole: "514124155273347084"
-          defaultRole: "514129652634222622"
-      r5k:
-        channel: "514124754207113226"
-        failChannel: "514124773551243290"
-      counting:
-        channel: "517047271347585065"
-      roulette:
-        channel: "517784617684828162"
-        percentage: 1
-      tzdata:
-        channel: "514124814294712341"
-      nick-museum:
-        channel: "514132045744832523"
-        role: "514132380282257410"
-      ephemeral:
-        channel: "523645006486175744"
-        expiry: 600
-      pins:
-        pins:
-          - "📌"
-          - "📍"
-          - "🌟"
-          - "⭐"
-        antipins: []
-        threshold: 3
-        channel: "546477354197975040"
+          creatorRole: "610971331026223157"
+          defaultRole: "403364109409845248"
