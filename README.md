@@ -4,7 +4,7 @@ Flick
 
 This is a fork of [Vinny](https://github.com/k2l8m11n2/vinny) for the private TechHOUNDS Discord server, with various unnecessary features cut and selfroles reworked for TechHOUNDS's "division" system.
 
-Icon made by the wonderful [Bryce Castle](https://github.com/BrysonC)!
+Icon made by the wonderful [Bryce Castle](https://bcastle.net)!
 
 ## How to add this bot to your server
 
