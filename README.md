@@ -1,5 +1,9 @@
 This is a fork of [Vinny](https://github.com/k2l8m11n2/vinny) for the private TechHOUNDS Discord server, with various unnecessary features cut and selfroles reworked for TechHOUNDS's "division" system.
 
+# How to add this bot to your server
+
+You can't.
+
 # Installation
 
 1. Do `yarn install` to install dependencies
