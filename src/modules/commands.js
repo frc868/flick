@@ -1,8 +1,10 @@
 const glob = require("glob");
 const path = require("path");
+const _ = require("lodash");
 const escapeStringRegexp = require("escape-string-regexp");
 require("string.prototype.matchall").shim();
 const { debug, info, error, fatal, assert } = require("../logging.js");
+const makeEmbed = require("../embed.js")
 
 const argsRegex = /"(.*?)"|'(.*?)'|(\S+)/g;
 
@@ -28,6 +30,19 @@ module.exports = {
         });
         let prefixes = config.prefixes || ["'", "‘", ";"];
         prefixes = prefixes.map(x => escapeStringRegexp(x));
+
+        let defaultEmbed = {
+            title: "",
+            url: "",
+            fields: [],
+            image: "",
+            footer: { text: "", icon: "" },
+            color: globalConfig.servers[serverId].embed.color
+        };
+        const footers = globalConfig.servers[serverId].embed.footers;
+        const icon = globalConfig.servers[serverId].embed.icon;
+
+        info(globalConfig);
 
         return {
             onMessage: function({ dclient, msg }) {
@@ -94,7 +109,12 @@ module.exports = {
                                 globalConfig
                             });
                             if (result) {
-                                msg.channel.send(result);
+                                if (typeof result === Object) {
+                                    defaultEmbed.footer = { text: footers[Math.floor(Math.random()*footers.length)], icon: icon };
+                                    msg.channel.send("", makeEmbed({...defaultEmbed, ...result}));
+                                } else {
+                                    msg.channel.send(result);
+                                }
                             }
                         }
                     }
