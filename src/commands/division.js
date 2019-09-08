@@ -25,10 +25,14 @@ module.exports = {
                 // debug("has", msg.member.roles.has(role.id));
                 // debug("position", role.position);
 
-                if (role.comparePositionTo(separatorRole) >= 0) return { title: "Go away." }; 
+                if (role.comparePositionTo(separatorRole) >= 0)
+                    return { title: "Go away." };
                 if (msg.member.roles.has(config.alumniRole))
                     return { title: "You're an alum!" };
-                if (!role) return { title: "Try signing up for a division that exists." };
+                if (!role)
+                    return {
+                        title: "Try signing up for a division that exists."
+                    };
                 if (roles.map(x => msg.member.roles.has(x)).includes(true))
                     return { title: "You're already in a division!" };
                 await msg.member.addRole(role);

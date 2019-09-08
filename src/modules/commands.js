@@ -104,17 +104,17 @@ module.exports = {
                                     {
                                         title: "List of commands",
                                         value: `${executableCommands
-                                                    .map(
-                                                        x => `[${x.join(", ")}]`
-                                                    )
-                                                    .join(", ")}`
+                                            .map(x => `[${x.join(", ")}]`)
+                                            .join(", ")}`
                                     }
                                 ]
                             };
                             msg.channel.send(
                                 "",
                                 makeEmbed({
-                                    ...defaultEmbed, ...helpEmbed})
+                                    ...defaultEmbed,
+                                    ...helpEmbed
+                                })
                             );
                         } else if (typeof commands[command] === "function") {
                             const result = await commands[command]({
@@ -126,7 +126,10 @@ module.exports = {
                             });
                             if (result) {
                                 if (typeof result === "object") {
-                                    debug("Sending embed", {...defaultEmbed, ...result});
+                                    debug("Sending embed", {
+                                        ...defaultEmbed,
+                                        ...result
+                                    });
                                     msg.channel.send(
                                         "",
                                         makeEmbed({

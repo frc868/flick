@@ -4,10 +4,11 @@ const superagent = require("superagent");
 module.exports = {
     init: () => ({
         dad: async () => {
-            const result = await superagent.get("https://icanhazdadjoke.com")
-                  .accept("json")
-                  .then(res => res.body.joke)
-                  .catch(error);
+            const result = await superagent
+                .get("https://icanhazdadjoke.com")
+                .accept("json")
+                .then(res => res.body.joke)
+                .catch(error);
             if (!result) return "Stop.";
             return {
                 fields: [
