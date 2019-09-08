@@ -17,7 +17,10 @@ module.exports = {
 
         return {
             onMessage: function({ msg }) {
-                defaultEmbed.footer = { text: footers[Math.floor(Math.random()*footers.length)], icon: icon };
+                defaultEmbed.footer = {
+                    text: footers[Math.floor(Math.random() * footers.length)],
+                    icon: icon
+                };
                 debug(defaultEmbed);
 
                 function getRandomInt(min, max) {
@@ -49,19 +52,34 @@ module.exports = {
                                 : " - " + -modifier;
                         if (dice > 1 || modifierDisplay) {
                             const embed = {
-                                title: "Roll " + dice + " " + sides + "-sided dice with a modifier of" + modifierDisplay,
-                                fields: [ { title: "Result", value: `[${rolls.join(
-                                    ", "
-                                )}]${modifierDisplay} = ${result}`
-                                          } ]
+                                title:
+                                    "Roll " +
+                                    dice +
+                                    " " +
+                                    sides +
+                                    "-sided dice",
+                                fields: [
+                                    {
+                                        title: "Result",
+                                        value: `[${rolls.join(
+                                            ", "
+                                        )}]${modifierDisplay} = ${result}`
+                                    }
+                                ]
                             };
-                            msg.channel.send("", makeEmbed({...defaultEmbed, ...embed}));
+                            msg.channel.send(
+                                "",
+                                makeEmbed({ ...defaultEmbed, ...embed })
+                            );
                         } else {
                             const embed = {
                                 title: "Roll a " + sides + "-sided die",
-                                fields: [ { title: "Result", value: result } ]
+                                fields: [{ title: "Result", value: result }]
                             };
-                            msg.channel.send("", makeEmbed({...defaultEmbed, ...embed}));
+                            msg.channel.send(
+                                "",
+                                makeEmbed({ ...defaultEmbed, ...embed })
+                            );
                         }
                     }
                 });

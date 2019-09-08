@@ -1,11 +1,22 @@
-const request = require("superagent");
+const { debug, info, error, fatal, assert } = require("../logging.js");
+const superagent = require("superagent");
 
 module.exports = {
     init: () => ({
-        dad: () =>
-            request
-                .get("https://icanhazdadjoke.com")
-                .accept("json")
-                .then(res => res.body.joke)
+        dad: async () => {
+            const result = await superagent.get("https://icanhazdadjoke.com")
+                  .accept("json")
+                  .then(res => res.body.joke)
+                  .catch(error);
+            if (!result) return "Stop.";
+            return {
+                fields: [
+                    {
+                        title: "Terrible joke",
+                        value: result
+                    }
+                ]
+            };
+        }
     })
 };

@@ -1,4 +1,4 @@
-const { debug, info, error, fatal, assert } = require("./logging.js")
+const { debug, info, error, fatal, assert } = require("./logging.js");
 const discord = require("discord.js");
 
 // Object contents:
@@ -8,13 +8,13 @@ const discord = require("discord.js");
 //     url: "http://techhounds.com"
 //     fields: [
 //         { title = "something", value = "something" },
-//         { title = "nothing", value = "nothing" }, 
+//         { title = "nothing", value = "nothing" },
 //     ],
 //     footer: { text: "", icon: "" },
 //     image = "https://techhounds.com/Gold_Coin.png"
 // }
 function makeEmbed(contents) {
-    let message = new discord.RichEmbed() 
+    let message = new discord.RichEmbed()
         .setColor(contents.color)
         .setTitle(contents.title)
         .setURL(contents.url)

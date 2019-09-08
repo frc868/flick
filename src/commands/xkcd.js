@@ -10,21 +10,24 @@ module.exports = {
     init: () => {
         const xkcd = () => async ({ msg, args }) => {
             if (args.length === 0) {
-                const ret =  await xlatest()
-                    .catch(_ => error("failed to find latest xkcd"));
+                const ret = await xlatest().catch(_ =>
+                    error("failed to find latest xkcd")
+                );
                 return {
                     title: "XKCD " + ret.num + ": " + ret.title,
                     image: ret.img,
-                    fields: [ { title: "Alt text", value: ret.alt } ]
+                    fields: [{ title: "Alt text", value: ret.alt }]
                 };
             } else if (args.length === 1) {
-                const ret = await xget(args[0])
-                      .catch(_ => info("failed to get xkcd", args[0]));
-                if (ret) return {
-                    title: "XKCD " + ret.num + ": " + ret.title,
-                    image: ret.img,
-                    fields: [ { title: "Alt text", value: ret.alt } ]
-                };
+                const ret = await xget(args[0]).catch(_ =>
+                    info("failed to get xkcd", args[0])
+                );
+                if (ret)
+                    return {
+                        title: "XKCD " + ret.num + ": " + ret.title,
+                        image: ret.img,
+                        fields: [{ title: "Alt text", value: ret.alt }]
+                    };
                 return "Couldn't find that one...";
             }
         };

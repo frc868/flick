@@ -25,22 +25,21 @@ module.exports = {
                 // debug("has", msg.member.roles.has(role.id));
                 // debug("position", role.position);
 
+                if (role.comparePositionTo(separatorRole) >= 0) return { title: "Go away." }; 
                 if (msg.member.roles.has(config.alumniRole))
-                    return "You're an alum!";
-                if (!role) return "Try signing up for a division that exists.";
+                    return { title: "You're an alum!" };
+                if (!role) return { title: "Try signing up for a division that exists." };
                 if (roles.map(x => msg.member.roles.has(x)).includes(true))
-                    return "You're already in a division!";
-                if (msg.member.roles.has(role.id)) return "You already were :)";
-                if (role.comparePositionTo(separatorRole) >= 0) return "no";
+                    return { title: "You're already in a division!" };
                 await msg.member.addRole(role);
-                return "Added!";
+                return { title: "Added!" };
             } else {
                 const current = msg.member.roles.find(x =>
                     roles.includes(x.id)
                 );
-                if (!current) return "Get in a division first!";
+                if (!current) return { title: "Get in a division first!" };
                 await msg.member.removeRole(current);
-                return "Removed! Get yourself a new division.";
+                return { title: "Removed! Get yourself a new division." };
             }
         };
         return {

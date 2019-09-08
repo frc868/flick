@@ -4,7 +4,7 @@ const _ = require("lodash");
 const escapeStringRegexp = require("escape-string-regexp");
 require("string.prototype.matchall").shim();
 const { debug, info, error, fatal, assert } = require("../logging.js");
-const makeEmbed = require("../embed.js")
+const makeEmbed = require("../embed.js");
 
 const argsRegex = /"(.*?)"|'(.*?)'|(\S+)/g;
 
@@ -42,10 +42,14 @@ module.exports = {
         const footers = globalConfig.servers[serverId].embed.footers;
         const icon = globalConfig.servers[serverId].embed.icon;
 
-        info(globalConfig);
-
         return {
             onMessage: function({ dclient, msg }) {
+                // set footer for embed; must be called here to ensure randomness
+                defaultEmbed.footer = {
+                    text: footers[Math.floor(Math.random() * footers.length)],
+                    icon: icon
+                };
+
                 if (msg.author.id === dclient.user.id) return;
                 prefixes.forEach(async prefix => {
                     const commandRegex = new RegExp(
@@ -95,10 +99,22 @@ module.exports = {
                                     }
                                 }
                             });
+                            const helpEmbed = {
+                                fields: [
+                                    {
+                                        title: "List of commands",
+                                        value: `${executableCommands
+                                                    .map(
+                                                        x => `[${x.join(", ")}]`
+                                                    )
+                                                    .join(", ")}`
+                                    }
+                                ]
+                            };
                             msg.channel.send(
-                                `Available commands: ${executableCommands
-                                    .map(x => `[${x.join(", ")}]`)
-                                    .join(", ")}`
+                                "",
+                                makeEmbed({
+                                    ...defaultEmbed, ...helpEmbed})
                             );
                         } else if (typeof commands[command] === "function") {
                             const result = await commands[command]({
@@ -110,8 +126,14 @@ module.exports = {
                             });
                             if (result) {
                                 if (typeof result === "object") {
-                                    defaultEmbed.footer = { text: footers[Math.floor(Math.random()*footers.length)], icon: icon };
-                                    msg.channel.send("", makeEmbed({...defaultEmbed, ...result}));
+                                    debug("Sending embed", {...defaultEmbed, ...result});
+                                    msg.channel.send(
+                                        "",
+                                        makeEmbed({
+                                            ...defaultEmbed,
+                                            ...result
+                                        })
+                                    );
                                 } else {
                                     msg.channel.send(result);
                                 }
