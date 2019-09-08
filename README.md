@@ -1,10 +1,16 @@
+Flick
+---
+<img src="https://raw.githubusercontent.com/frc868/flick/master/icon.png" alt="Flick by Bryce" align="right" width="256px">
+
 This is a fork of [Vinny](https://github.com/k2l8m11n2/vinny) for the private TechHOUNDS Discord server, with various unnecessary features cut and selfroles reworked for TechHOUNDS's "division" system.
 
-# How to add this bot to your server
+Icon made by the wonderful [Bryce Castle](https://github.com/BrysonC)!
 
-You can't.
+## How to add this bot to your server
 
-# Installation
+You can't. Why would you want to, anyway?
+
+## Installation
 
 1. Do `yarn install` to install dependencies
 2. Copy the example `secrets.yaml` and `config.yaml` files and edit to taste
