@@ -1,34 +1,33 @@
 const { debug, info, error, fatal, assert } = require("../logging.js");
-const discord = require("discord.js");
 const xclient = require("xkcd-api"); // i hate this api, but i don't feel like writing my own crawler
+const util = require("util");
 
-const sendAttachment = (msg, url) => {
-    msg.channel.send("", {
-        files: [new discord.Attachment(url)]
-    });
+const xlatest = util.promisify(xclient.latest);
+const xget = util.promisify(xclient.get);
+
+module.exports = {
+    commands: { xkcd: null },
+    init: () => {
+        const xkcd = () => async ({ msg, args }) => {
+            if (args.length === 0) {
+                const ret =  await xlatest()
+                    .catch(_ => error("failed to find latest xkcd"));
+                return {
+                    title: "XKCD " + ret.num + ": " + ret.title,
+                    image: ret.img,
+                    fields: [ { title: "Alt text", value: ret.alt } ]
+                };
+            } else if (args.length === 1) {
+                const ret = await xget(args[0])
+                      .catch(_ => info("failed to get xkcd", args[0]));
+                if (ret) return {
+                    title: "XKCD " + ret.num + ": " + ret.title,
+                    image: ret.img,
+                    fields: [ { title: "Alt text", value: ret.alt } ]
+                };
+                return "Couldn't find that one...";
+            }
+        };
+        return { xkcd: xkcd() };
+    }
 };
-
-const xkcd = () => {
-    return ({ msg, args }) => {
-        if (args.length === 0) {
-            xclient.latest((err, resp) => {
-                if (err) {
-                    error("failed to find random xkcd"); // wtf
-                } else {
-                    sendAttachment(msg, resp.img);
-                }
-            });
-        } else if (args.length === 1) {
-            xclient.get(args[0], (err, resp) => {
-                if (err) {
-                    info("failed to find xkcd", args[0]);
-                    msg.channel.send("Couldn't find that one...");
-                } else {
-                    sendAttachment(msg, resp.img);
-                }
-            });
-        }
-    };
-};
-
-module.exports = { init: () => ({ xkcd: xkcd() }) };

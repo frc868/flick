@@ -109,7 +109,7 @@ module.exports = {
                                 globalConfig
                             });
                             if (result) {
-                                if (typeof result === Object) {
+                                if (typeof result === "object") {
                                     defaultEmbed.footer = { text: footers[Math.floor(Math.random()*footers.length)], icon: icon };
                                     msg.channel.send("", makeEmbed({...defaultEmbed, ...result}));
                                 } else {

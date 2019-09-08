@@ -21,7 +21,7 @@ function makeEmbed(contents) {
         .setImage(contents.image)
         .setFooter(contents.footer.text, contents.footer.icon)
         .setTimestamp();
-    contents.fields.forEach(x => message.addField(x));
+    contents.fields.forEach(x => message.addField(x.title, x.value));
     return message;
 }
 
