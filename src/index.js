@@ -194,7 +194,7 @@ async function initaliseDiscord(config, secrets, moduleInstances) {
                     game: { name: "Ultimate Ascent with the Poofs" },
                     status: "online"
                 })
-                .then(info)
+                .then(x => debug("Client status", x))
                 .catch(error);
             resolve(dclient);
         });

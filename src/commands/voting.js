@@ -154,7 +154,7 @@ module.exports = {
                     required: voteRequired
                 } = voteInfoPrepared.get(serverId);
                 if (!msg.member.roles.has(voteRole)) {
-                    ret = "You're not authorized to do that."
+                    ret = "You're not authorized to do that.";
                     done();
                     return;
                 }
@@ -186,7 +186,8 @@ module.exports = {
                 return { title: title };
             };
 
-            if (!msg.member.roles.has(config.creatorRole)) return mkEmbed("Stop.");
+            if (!msg.member.roles.has(config.creatorRole))
+                return mkEmbed("Stop.");
 
             let required, roleName;
             if (args[0] && args[1]) {
@@ -240,7 +241,9 @@ module.exports = {
                 done();
             }).then(() => debug("voting lock released in mkvote"));
 
-            return mkEmbed(`Starting \`${roleName}\` vote (${required} required).`);
+            return mkEmbed(
+                `Starting \`${roleName}\` vote (${required} required).`
+            );
         };
 
         const rmvote = internal => ({ msg }) => {
@@ -280,7 +283,6 @@ module.exports = {
                     deleteVotesPrepared.run(serverId);
                     deleteVotingPrepared.run(serverId);
                 })();
-
 
                 ret = `Vote finished: ${votes[FOR]} for, ${votes[AGAINST]} against. ${emoji}`;
                 done();
