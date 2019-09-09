@@ -15,7 +15,7 @@ module.exports = {
                     " " +
                     args[1].charAt(0).toUpperCase()
             );
-            return { title: "Done!" };
+            return { title: "Done! Now type `;division Robot Ops` (or whatever your division is)." };
         };
         return {
             nick: nick()

@@ -58,12 +58,13 @@ module.exports = {
         );
 
         const vote = up => ({ msg }) => {
+            let ret = "";
             lock.acquire("voting", done => {
                 debug("voting lock acquired in vote");
 
                 const activeVote = activeVotePrepared.get(serverId);
                 if (!activeVote) {
-                    msg.channel.send("No vote currently in progress.");
+                    ret = "No vote currently in progress.";
                     done();
                     return;
                 }
@@ -74,7 +75,7 @@ module.exports = {
                     roleSize
                 } = voteInfoPrepared.get(serverId);
                 if (!msg.member.roles.has(voteRole)) {
-                    msg.channel.send("You're not authorised to vote.");
+                    ret = "You're not authorized to vote.";
                     done();
                     return;
                 }
@@ -134,14 +135,16 @@ module.exports = {
                     done();
                 }
             }).then(() => debug("voting lock released in vote"));
+            if (ret) return { title: ret };
         };
 
         const voteStatus = ({ msg }) => {
+            let ret = "";
             lock.acquire("voting", done => {
                 debug("voting lock acquired in voteStatus");
                 const activeVote = activeVotePrepared.get(serverId);
                 if (!activeVote) {
-                    msg.channel.send("No vote currently in progress.");
+                    ret = "No vote currently in progress.";
                     done();
                     return;
                 }
@@ -151,7 +154,7 @@ module.exports = {
                     required: voteRequired
                 } = voteInfoPrepared.get(serverId);
                 if (!msg.member.roles.has(voteRole)) {
-                    msg.channel.send("You're not authorised to do that.");
+                    ret = "You're not authorized to do that."
                     done();
                     return;
                 }
@@ -172,15 +175,18 @@ module.exports = {
 
                 roleName = msg.guild.roles.get(voteRole).name.replace(/@/g, "");
 
-                msg.channel.send(
-                    `Current \`${roleName}\` vote results: ${votes[FOR]} for, ${votes[AGAINST]} against (${voteRequired} required). (${emoji})`
-                );
+                ret = `Current \`${roleName}\` vote results: ${votes[FOR]} for, ${votes[AGAINST]} against (${voteRequired} required). (${emoji})`;
                 done();
             }).then(() => debug("voting lock released in voteStatus"));
+            if (ret) return { title: ret };
         };
 
         const mkvote = ({ msg, args }) => {
-            if (!msg.member.roles.has(config.creatorRole)) return "no";
+            const mkEmbed = title => {
+                return { title: title };
+            };
+
+            if (!msg.member.roles.has(config.creatorRole)) return mkEmbed("Stop.");
 
             let required, roleName;
             if (args[0] && args[1]) {
@@ -192,7 +198,7 @@ module.exports = {
                     required = args[0];
                 }
             } else {
-                return "Please specify a valid count and/or role.";
+                return mkEmbed("Please specify a valid count and/or role.");
             }
 
             debug({ required, roleName });
@@ -206,7 +212,7 @@ module.exports = {
                     x => x.name.toLowerCase() === roleName.toLowerCase()
                 );
                 if (!role) {
-                    return "Couldn't find that role :/";
+                    return mkEmbed("Couldn't find that role :/");
                 }
                 roleName = roleName.replace(/@/g, "");
             } else {
@@ -234,14 +240,15 @@ module.exports = {
                 done();
             }).then(() => debug("voting lock released in mkvote"));
 
-            return `Starting \`${roleName}\` vote (${required} required).`;
+            return mkEmbed(`Starting \`${roleName}\` vote (${required} required).`);
         };
 
         const rmvote = internal => ({ msg }) => {
+            let ret = "";
             lock.acquire("voting", done => {
                 debug("voting lock acquired in rmvote");
                 if (!msg.member.roles.has(config.creatorRole) && !internal) {
-                    msg.channel.send("no");
+                    ret = "Stop.";
                     done();
                     return;
                 }
@@ -249,7 +256,7 @@ module.exports = {
                 const activeVote = activeVotePrepared.get(serverId);
                 if (!activeVote) {
                     if (!internal) {
-                        msg.channel.send("No vote currently in progress.");
+                        ret = "No vote currently in progress.";
                     }
                     done();
                     return;
@@ -274,11 +281,11 @@ module.exports = {
                     deleteVotingPrepared.run(serverId);
                 })();
 
-                msg.channel.send(
-                    `Vote finished: ${votes[FOR]} for, ${votes[AGAINST]} against. ${emoji}`
-                );
+
+                ret = `Vote finished: ${votes[FOR]} for, ${votes[AGAINST]} against. ${emoji}`;
                 done();
             }).then(() => debug("voting lock released in rmvote"));
+            if (ret) return { title: ret };
         };
 
         return {
