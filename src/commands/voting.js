@@ -130,12 +130,14 @@ module.exports = {
                         leading - second /*gap*/
                 ) {
                     done();
-                    rmvote(true)({ msg });
+                    ret = rmvote(true)({ msg });
                 } else {
                     done();
                 }
             }).then(() => debug("voting lock released in vote"));
-            if (ret) return { title: ret };
+            if (typeof ret === "string" && ret)
+                return { fields: [{ title: "Vote status", value: ret }] };
+            else return ret;
         };
 
         const voteStatus = ({ msg }) => {
@@ -164,26 +166,35 @@ module.exports = {
                     votes[x.direction] = x["COUNT(*)"];
                 });
 
-                let emoji;
+                let color;
                 if (votes[FOR] > votes[AGAINST]) {
-                    emoji = ":thumbsup:";
+                    color = config.passingColor;
                 } else if (votes[FOR] < votes[AGAINST]) {
-                    emoji = ":thumbsdown:";
+                    color = config.failingColor;
                 } else {
-                    emoji = ":question:";
+                    color = config.neutralColor;
                 }
 
                 roleName = msg.guild.roles.get(voteRole).name.replace(/@/g, "");
 
-                ret = `Current \`${roleName}\` vote results: ${votes[FOR]} for, ${votes[AGAINST]} against (${voteRequired} required). (${emoji})`;
+                ret = {
+                    title: `Vote status for role ${roleName}`,
+                    color: color,
+                    fields: [
+                        { title: "For", value: votes[FOR] },
+                        { title: "Against", value: votes[AGAINST] }
+                    ]
+                };
                 done();
             }).then(() => debug("voting lock released in voteStatus"));
-            if (ret) return { title: ret };
+            if (typeof ret === "string" && ret)
+                return { fields: [{ title: "Vote status", value: ret }] };
+            else return ret;
         };
 
         const mkvote = ({ msg, args }) => {
-            const mkEmbed = title => {
-                return { title: title };
+            const mkEmbed = contents => {
+                return { fields: [{ title: "Vote status", value: contents }] };
             };
 
             if (!msg.member.roles.has(config.creatorRole))
@@ -241,9 +252,14 @@ module.exports = {
                 done();
             }).then(() => debug("voting lock released in mkvote"));
 
-            return mkEmbed(
-                `Starting \`${roleName}\` vote (${required} required).`
-            );
+            return {
+                fields: [
+                    {
+                        title: `Vote status for role ${roleName}`,
+                        value: `Starting vote with ${required} votes required`
+                    }
+                ]
+            };
         };
 
         const rmvote = internal => ({ msg }) => {
@@ -270,13 +286,13 @@ module.exports = {
                     votes[x.direction] = x["COUNT(*)"];
                 });
 
-                let emoji;
+                let color;
                 if (votes[FOR] > votes[AGAINST]) {
-                    emoji = ":thumbsup:";
+                    color = config.passingColor;
                 } else if (votes[FOR] < votes[AGAINST]) {
-                    emoji = ":thumbsdown:";
+                    color = config.failingColor;
                 } else {
-                    emoji = ":question:";
+                    color = config.neutralColor;
                 }
 
                 db.transaction(() => {
@@ -284,10 +300,19 @@ module.exports = {
                     deleteVotingPrepared.run(serverId);
                 })();
 
-                ret = `Vote finished: ${votes[FOR]} for, ${votes[AGAINST]} against. ${emoji}`;
+                ret = {
+                    title: `Final vote results`,
+                    color: color,
+                    fields: [
+                        { title: "For", value: votes[FOR] },
+                        { title: "Against", value: votes[AGAINST] }
+                    ]
+                };
                 done();
             }).then(() => debug("voting lock released in rmvote"));
-            if (ret) return { title: ret };
+            if (typeof ret === "string" && ret)
+                return { fields: [{ title: "Vote status", value: ret }] };
+            else return ret;
         };
 
         return {

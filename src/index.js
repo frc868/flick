@@ -86,10 +86,10 @@ async function main() {
     }
     await Promise.all(promises);
 
-    await initaliseDiscord(config, secrets, moduleInstances);
+    await initializeDiscord(config, secrets, moduleInstances);
 }
 
-async function initaliseDiscord(config, secrets, moduleInstances) {
+async function initializeDiscord(config, secrets, moduleInstances) {
     const dclient = new discord.Client();
 
     dclient.on("ready", x => {
