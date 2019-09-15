@@ -20,7 +20,7 @@ module.exports = {
         no: ["nay", "against", "nah", "nope", "nuh", "never"],
         vote: null,
         mkvote: null,
-        rmvote: null
+        rmvote: ["veto"]
     },
     init: ({ db, serverId, lock, config }) => {
         db.prepare(
@@ -337,8 +337,9 @@ module.exports = {
             never: vote(false),
 
             vote: voteStatus,
-            mkvote,
-            rmvote: rmvote(false)
+            mkvote: mkvote,
+            rmvote: rmvote(false),
+            veto: rmvote(false)
         };
     }
 };
