@@ -15,7 +15,10 @@ commandPaths.forEach(x => {
     commandPacks.push(commandPack);
     commandPack.name = commandPack.name || path.parse(x).name;
 });
-info("Command packs loaded:", commandPacks.map(x => x.name));
+info(
+    "Command packs loaded:",
+    commandPacks.map(x => x.name)
+);
 
 module.exports = {
     init: function({ config, db, serverId, lock, globalConfig }) {

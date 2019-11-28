@@ -59,7 +59,10 @@ async function main() {
         mod.name = mod.name || path.parse(x).name;
         modules.push(mod);
     });
-    info("Modules loaded:", modules.map(x => x.name));
+    info(
+        "Modules loaded:",
+        modules.map(x => x.name)
+    );
     const moduleInstances = {};
     const promises = [];
     for (let [serverId, serverConfig] of Object.entries(config.servers)) {

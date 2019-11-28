@@ -10,7 +10,7 @@ module.exports = {
                 "valid separator role"
             );
             const separatorRole = msg.guild.roles.get(config.separatorRole);
-            let r = 1; // 1 to exclude @everyone
+            let r = 2; // let it be known that I don't know why this is
             let roles = [];
             let fuzzyRoles = fuzzyset();
             while (r < separatorRole.position) {
@@ -23,21 +23,16 @@ module.exports = {
             }
             if (add) {
                 // ;division
-                if (!rawArgs)
-                    return { title: "What division?" }
+                if (!rawArgs) return { title: "What division?" };
 
                 debug(fuzzyRoles.get(rawArgs));
 
                 // fuzzyset.js returns [[confidence, 'string']]; just getting the first
-                const role = msg.guild.roles.find(
-                    x => {
-                        let result = fuzzyRoles.get(rawArgs);
-                        if (result)
-                            return x.name === result[0][1];
-                        else
-                            return null;
-                    }
-                );
+                const role = msg.guild.roles.find(x => {
+                    let result = fuzzyRoles.get(rawArgs);
+                    if (result) return x.name === result[0][1];
+                    else return null;
+                });
 
                 if (!role)
                     return {
