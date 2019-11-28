@@ -1,4 +1,5 @@
 const { debug, info, error, fatal, assert } = require("../logging.js");
+const fuzzyset = require("fuzzyset.js");
 
 module.exports = {
     commands: { division: null, removedivision: ["undivision"] },
@@ -11,35 +12,47 @@ module.exports = {
             const separatorRole = msg.guild.roles.get(config.separatorRole);
             let r = 1; // 1 to exclude @everyone
             let roles = [];
+            let fuzzyRoles = fuzzyset();
             while (r < separatorRole.position) {
                 // get all roles under seperator role
                 const append = msg.guild.roles.find(x => x.position === r);
                 if (!append) error("failed to get usable divisions", r);
-                roles.push(append.id); // store ids for comparison purposes
+                roles.push(append);
+                fuzzyRoles.add(append.name);
                 r++;
             }
             if (add) {
+                // ;division
+                if (!rawArgs)
+                    return { title: "What division?" }
+
+                debug(fuzzyRoles.get(rawArgs));
+
+                // fuzzyset.js returns [[confidence, 'string']]; just getting the first
                 const role = msg.guild.roles.find(
-                    x => x.name.toLowerCase() === rawArgs.toLowerCase()
+                    x => {
+                        let result = fuzzyRoles.get(rawArgs);
+                        if (result)
+                            return x.name === result[0][1];
+                        else
+                            return null;
+                    }
                 );
-                // debug("has", msg.member.roles.has(role.id));
-                // debug("position", role.position);
 
                 if (!role)
                     return {
-                        title: "Try signing up for a division that exists."
+                        title: "Couldn't find that division..."
                     };
                 if (role.comparePositionTo(separatorRole) >= 0)
                     return { title: "Go away." };
-                if (msg.member.roles.has(config.alumniRole))
-                    return { title: "You're an alum!" };
-                if (roles.map(x => msg.member.roles.has(x)).includes(true))
+                if (roles.map(x => msg.member.roles.has(x.id)).includes(true))
                     return { title: "You're already in a division!" };
                 await msg.member.addRole(role);
                 return { title: "Added!" };
             } else {
+                // ;undivision
                 const current = msg.member.roles.find(x =>
-                    roles.includes(x.id)
+                    roles.map(r => r.id).includes(x.id)
                 );
                 if (!current) return { title: "Get in a division first!" };
                 await msg.member.removeRole(current);
