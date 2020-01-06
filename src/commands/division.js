@@ -5,22 +5,13 @@ module.exports = {
     commands: { division: null, removedivision: ["undivision"] },
     init: ({ config }) => {
         const division = add => async ({ msg, rawArgs }) => {
-            assert(
-                msg.guild.roles.has(config.separatorRole),
-                "valid separator role"
-            );
-            const separatorRole = msg.guild.roles.get(config.separatorRole);
-            let r = 2; // let it be known that I don't know why this is
             let roles = [];
             let fuzzyRoles = fuzzyset();
-            while (r < separatorRole.position) {
-                // get all roles under seperator role
-                const append = msg.guild.roles.find(x => x.position === r);
-                if (!append) error("failed to get usable divisions", r);
+            config.divisions.forEach(id => {
+                const append = msg.guild.roles.find(role => role.id === id);
                 roles.push(append);
                 fuzzyRoles.add(append.name);
-                r++;
-            }
+            });
             if (add) {
                 // ;division
                 if (!rawArgs) return { title: "What division?" };
@@ -38,8 +29,6 @@ module.exports = {
                     return {
                         title: "Couldn't find that division..."
                     };
-                if (role.comparePositionTo(separatorRole) >= 0)
-                    return { title: "Go away." };
                 if (roles.map(x => msg.member.roles.has(x.id)).includes(true))
                     return { title: "You're already in a division!" };
                 await msg.member.addRole(role);
