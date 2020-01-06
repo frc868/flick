@@ -1,19 +1,36 @@
 servers:
-  "403364109409845248":
+  "620186010021658625":
+    embed:
+      footers:
+        - "*vrrrrrrrrrrrrr*"
+        - "*frisbee shooting noises*"
+        - "*beep boop*"
+      icon: "https://raw.githubusercontent.com/frc868/flick/master/icon_footer.png"
+      color: "#FBBF05"
     modules:
       - "welcome"
       - "commands"
       - "dice"
     moduleConfig:
       welcome:
-        channel: "451027883054465055"
-        rules: "610974359116316722"
+        channel: "620186293770518528"
+        rules: "620186315173920768"
       commands:
         prefixes:
           - ";"
+        iam:
+          separatorRole: "620186493293559818"
         division:
-          separatorRole: "619572167696187443"
-          alumniRole: "433706179856826369"
+          divisions:
+            - "620186395901820958"
+            - "620186468777984012"
+            - "620186439996669954"
+            - "620186426801127427"
+            - "620186414104969217"
+            - "620186395901820958"
         voting:
-          creatorRole: "610971331026223157"
-          defaultRole: "403364109409845248"
+          creatorRole: "620186557399433216"
+          defaultRole: "620186010021658625"
+          neutralColor: "#FBBF05"
+          passingColor: "#77DD77"
+          failingColor: "#DE6868"
